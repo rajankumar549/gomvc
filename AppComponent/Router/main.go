@@ -17,14 +17,12 @@ func RouterInit() *_MUX.Router {
 		fmt.Printf("URL : %+v Description : %+v Type : %+v\n", Action.URL, Action.Description, Action.Method)
 		r.HandleFunc(Action.URL, Action.Handller)
 	}
-
 	return r
 }
 
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		Console.DEBUG("URL => %s", r.URL)
-		Console.DEBUG("kjfbjwebjfbkwje")
 		next.ServeHTTP(w, r)
 	})
 }

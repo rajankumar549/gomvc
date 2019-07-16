@@ -6,6 +6,7 @@ var config = map[string]string{
 	"APIPREFIX":  "",
 	"DEBUGLEVEL": "1",
 }
+var T = config
 
 func GetPORT() string {
 	return ":" + config["PORT"]
