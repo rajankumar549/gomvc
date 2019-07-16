@@ -3,6 +3,8 @@ package Console
 import (
 	"fmt"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 type LogLevel struct {
@@ -33,40 +35,53 @@ func InitLogger(level int64) {
 	fmt.Printf("Invalid Log Level")
 
 }
-func addRecord(level int64, format string, a ...interface{}) {
+func addRecord(c color.Attribute, level int64, format string, a ...interface{}) {
 	if level >= config.Level {
 		t := time.Now()
 		timeStapText := "[" + Settings[level] + "] : [" + t.Format("2006-01-02T15:04:05Z07:00") + "] : "
 		logText := format
-		fmt.Println(logText)
-		fmt.Println(a...)
+		switch level {
+		case 600:
+			color.Set(c, color.Underline, color.Bold)
+			break
+		case 550:
+			color.Set(c, color.Bold)
+			break
+		case 500:
+			color.Set(c, color.Italic)
+			break
+		default:
+			color.Set(c)
+		}
+
 		if len(a) > 0 {
 			logText = fmt.Sprintf(format, a...)
 		}
 		fmt.Println(timeStapText, logText)
+		color.Unset()
 	}
 }
 func DEBUG(format string, a ...interface{}) {
-	addRecord(100, format, a...)
+	addRecord(color.FgHiWhite, 100, format, a...)
 }
 func INFO(format string, a ...interface{}) {
-	addRecord(200, format, a...)
+	addRecord(color.FgGreen, 200, format, a...)
 }
 func NOTICE(format string, a ...interface{}) {
-	addRecord(250, format, a...)
+	addRecord(color.FgCyan, 250, format, a...)
 }
 func WARNING(format string, a ...interface{}) {
-	addRecord(300, format, a...)
+	addRecord(color.FgYellow, 300, format, a...)
 }
 func ERROR(format string, a ...interface{}) {
-	addRecord(400, format, a...)
+	addRecord(color.FgMagenta, 400, format, a...)
 }
 func CRITICAL(format string, a ...interface{}) {
-	addRecord(500, format, a...)
+	addRecord(color.FgRed, 500, format, a...)
 }
 func ALERT(format string, a ...interface{}) {
-	addRecord(550, format, a...)
+	addRecord(color.FgHiRed, 550, format, a...)
 }
 func EMERGENCY(format string, a ...interface{}) {
-	addRecord(600, format, a...)
+	addRecord(color.FgWhite, 600, format, a...)
 }

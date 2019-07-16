@@ -10,13 +10,16 @@ import (
 )
 
 func main() {
+
 	Console.InitLogger(100)
+	Console.NOTICE("App Starting....")
 	Router := _APPRouter.RouterInit()
 	port := cfg.GetPORT()
+	Console.INFO("Server at Port %s", port)
 	err := http.ListenAndServe(port, Router)
 	if err != nil {
-		Console.EMERGENCY("Server Failed %v , %s", err, "tstrdcgw")
+		Console.EMERGENCY("Server Failed %v , %s", err)
 		os.Exit(1)
 	}
-	Console.INFO("Server Statring At Port %s", port)
+
 }

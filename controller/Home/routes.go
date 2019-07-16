@@ -6,13 +6,13 @@ var Export = []u.Action{
 	u.Action{
 		URL:         "/",
 		Method:      "GET",
-		Handller:    homeHandler,
+		Handler:     homeHandler,
 		Description: "Hello world Request Handler",
 	},
 	u.Action{
 		URL:         "/ping",
 		Method:      "GET",
-		Handller:    pingHandller,
+		Handler:     pingHandller,
 		Description: "Ping Pong Request Handler",
 	},
 }

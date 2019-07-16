@@ -1,15 +1,16 @@
 package Home
 
-import (
-	"fmt"
-	"net/http"
-)
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Hello World From Golang")
+type t struct {
+	Name string `json:name`
 }
-func pingHandller(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Pong")
+
+func homeHandler(id string, params ...interface{}) (interface{}, error) {
+	return t{
+		Name: "Rajan Kumar",
+	}, nil
+}
+func pingHandller(id string, params ...interface{}) (interface{}, error) {
+	return t{
+		Name: "Rajan Kumar",
+	}, nil
 }
