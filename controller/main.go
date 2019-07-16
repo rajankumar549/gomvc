@@ -1,7 +1,7 @@
 package Controller
 
 import (
-	_HomeController "github.com/rajankumar549/Trim/Controller/Home"
+	_HomeController "github.com/rajankumar549/Trim/controller/Home"
 	u "github.com/rajankumar549/Trim/utils"
 )
 
