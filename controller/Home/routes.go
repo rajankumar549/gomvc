@@ -4,13 +4,13 @@ import u "github.com/rajankumar549/Trim/utils"
 
 var Export = []u.Action{
 	u.Action{
-		URL:         "/",
+		URL:         "/hash",
 		Method:      "GET",
 		Handler:     homeHandler,
 		Description: "Hello world Request Handler",
 	},
 	u.Action{
-		URL:         "/ping",
+		URL:         "/ping/{id:[0-9]+}",
 		Method:      "GET",
 		Handler:     pingHandller,
 		Description: "Ping Pong Request Handler",

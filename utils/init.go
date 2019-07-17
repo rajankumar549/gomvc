@@ -1,24 +1,27 @@
 package Utils
 
-import "net/http"
+import (
+	json "encoding/json"
+	"net/http"
+)
 
 type HandlerFunc func(rw http.ResponseWriter, r *http.Request) (interface{}, error)
-type ActionHandler func(id string, params ...interface{}) (interface{}, error)
+type ActionHandler func(vars map[string]string, params *json.Decoder) (interface{}, error)
 type Action struct {
 	URL         string
 	Handler     ActionHandler
 	Method      string `default:"GET"`
 	Description string
 }
-type Base struct {
-	Status            string      `json:"status"`
-	Config            interface{} `json:"config"`
-	ServerProcessTime string      `json:"server_process_time"`
-	ErrorMessage      []string    `json:"message_error,omitempty"`
-	StatusMessage     []string    `json:"message_status,omitempty"`
-}
 
-type Response struct {
-	Base
-	Data interface{} `json:"data"`
+func Unique(intSlice []string) []string {
+	keys := make(map[string]bool)
+	list := []string{}
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	_MUX "github.com/gorilla/mux"
@@ -11,6 +12,19 @@ import (
 	_Controller "github.com/rajankumar549/Trim/controller"
 	u "github.com/rajankumar549/Trim/utils"
 )
+
+type Base struct {
+	Status            string      `json:"status"`
+	Config            interface{} `json:"config"`
+	ServerProcessTime string      `json:"server_process_time"`
+	ErrorMessage      []string    `json:"message_error,omitempty"`
+	StatusMessage     []string    `json:"message_status,omitempty"`
+}
+
+type Response struct {
+	Base
+	Data interface{} `json:"data"`
+}
 
 func RouterInit() *_MUX.Router {
 	r := _MUX.NewRouter()
@@ -34,7 +48,7 @@ func loggingMiddleware(next http.Handler) http.Handler {
 }
 
 func ServeHTTP(w http.ResponseWriter, r *http.Request, method u.ActionHandler) {
-	response := u.Response{}
+	response := Response{}
 	response.Base.Status = "OK"
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -50,8 +64,15 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request, method u.ActionHandler) {
 
 	var data interface{}
 	var err error
+	vars := _MUX.Vars(r)
+	query := r.URL.Query()
 
-	data, err = method("5", nil)
+	for k, v := range query {
+		v = u.Unique(v)
+		vars[k] = strings.Join(v, ",")
+	}
+	decoder := json.NewDecoder(r.Body)
+	data, err = method(vars, decoder)
 
 	response.Base.ServerProcessTime = time.Since(start).String()
 

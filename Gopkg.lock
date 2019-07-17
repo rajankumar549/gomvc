@@ -2,12 +2,47 @@
 
 
 [[projects]]
+  digest = "1:865079840386857c809b72ce300be7580cb50d3d3129ce11bf9aa6ca2bc1934a"
+  name = "github.com/fatih/color"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5b77d2a35fb0ede96d138fc9a99f5c9b6aef11b4"
+  version = "v1.7.0"
+
+[[projects]]
+  digest = "1:0594af97b2f4cec6554086eeace6597e20a4b69466eb4ada25adf9f4300dddd2"
+  name = "github.com/garyburd/redigo"
+  packages = [
+    "internal",
+    "redis",
+  ]
+  pruneopts = "UT"
+  revision = "a69d19351219b6dd56f274f96d85a7014a2ec34e"
+  version = "v1.6.0"
+
+[[projects]]
   digest = "1:cbec35fe4d5a4fba369a656a8cd65e244ea2c743007d8f6c1ccb132acf9d1296"
   name = "github.com/gorilla/mux"
   packages = ["."]
   pruneopts = "UT"
   revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
   version = "v1.7.3"
+
+[[projects]]
+  digest = "1:c658e84ad3916da105a761660dcaeb01e63416c8ec7bc62256a9b411a05fcd67"
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
+
+[[projects]]
+  digest = "1:9b90c7639a41697f3d4ad12d7d67dfacc9a7a4a6e0bbfae4fc72d0da57c28871"
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1311e847b0cb909da63b5fecfb5370aa66236465"
+  version = "v0.0.8"
 
 [[projects]]
   branch = "master"
@@ -24,10 +59,39 @@
   pruneopts = "UT"
   revision = "73b283a0612d13f271517e89b3d6070766d7db21"
 
+[[projects]]
+  branch = "master"
+  digest = "1:bbda8351a6cf7431088458aa0bac212684e9f0f36eecda9f2e5edbfec249a6d9"
+  name = "github.com/tokopedia/tkp-trigger"
+  packages = ["common/redis"]
+  pruneopts = "UT"
+  revision = "0d85fa4dfcf524057ffd2de4d9b369253b381d4c"
+
+[[projects]]
+  branch = "master"
+  digest = "1:6aa44d3e546263a24285ef169ffe57c8c7090deb8532be96032fe3243e75a1d6"
+  name = "golang.org/x/crypto"
+  packages = ["blake2s"]
+  pruneopts = "UT"
+  revision = "4def268fd1a49955bfb3dda92fe3db4f924f2285"
+
+[[projects]]
+  branch = "master"
+  digest = "1:a0e4b2275e7939970d395eb6d03f409378eb586aab72e0a461d95e3435c6c5c4"
+  name = "golang.org/x/sys"
+  packages = [
+    "cpu",
+    "unix",
+  ]
+  pruneopts = "UT"
+  revision = "fae7ac547cb717d141c433a2a173315e216b64c4"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/fatih/color",
+    "github.com/garyburd/redigo/redis",
     "github.com/gorilla/mux",
     "github.com/rajankumar549/Trim/AppComponent/Console",
     "github.com/rajankumar549/Trim/AppComponent/Router",
@@ -35,6 +99,8 @@
     "github.com/rajankumar549/Trim/controller",
     "github.com/rajankumar549/Trim/controller/Home",
     "github.com/rajankumar549/Trim/utils",
+    "github.com/tokopedia/tkp-trigger/common/redis",
+    "golang.org/x/crypto/blake2s",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
