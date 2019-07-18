@@ -2,6 +2,7 @@ package APPRouter
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -14,16 +15,18 @@ import (
 )
 
 type Base struct {
+	StatusCode        int64       `json:"status_code`
 	Status            string      `json:"status"`
 	Config            interface{} `json:"config"`
 	ServerProcessTime string      `json:"server_process_time"`
-	ErrorMessage      []string    `json:"message_error,omitempty"`
-	StatusMessage     []string    `json:"message_status,omitempty"`
+	ErrorMessage      string      `json:"message_error,omitempty"`
+	StatusMessage     string      `json:"message_status,omitempty"`
 }
 
 type Response struct {
 	Base
 	Data interface{} `json:"data"`
+	Err  string      `json:"err"`
 }
 
 func RouterInit() *_MUX.Router {
@@ -35,8 +38,13 @@ func RouterInit() *_MUX.Router {
 		r.HandleFunc(Action.URL, func(w http.ResponseWriter, r *http.Request) {
 			ServeHTTP(w, r, Action.Handler)
 			return
-		})
+		}).Methods(Action.Method)
 	}
+	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ServeHTTP(w, r, func(vars map[string]string, params *json.Decoder) (interface{}, error) {
+			return nil, errors.New("NotFound")
+		})
+	})
 	return r
 }
 
@@ -79,7 +87,8 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request, method u.ActionHandler) {
 	var buf []byte
 
 	w.Header().Set("Content-Type", "application/json")
-
+	response.Err = fmt.Sprint(err)
+	response.StatusCode = 200
 	if data != nil && err == nil {
 		response.Data = data
 		if buf, err = json.Marshal(response); err == nil {
@@ -89,8 +98,18 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request, method u.ActionHandler) {
 		}
 	}
 
+	if response.Err == "NotFound" {
+		response.Base.Status = "INVALID"
+		response.Base.ErrorMessage = "Request URL Not Found"
+		response.StatusCode = 404
+	} else {
+		response.Base.Status = "FAIL"
+		response.Base.ErrorMessage = "Unprocessable Request"
+		response.StatusCode = 422
+	}
+
 	buf, _ = json.Marshal(response)
-	Console.INFO(string(buf[:]))
+	Console.INFO("Failed : " + string(buf[:]))
 	w.Write(buf)
 	return
 }

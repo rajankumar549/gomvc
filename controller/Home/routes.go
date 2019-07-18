@@ -15,4 +15,10 @@ var Export = []u.Action{
 		Handler:     pingHandller,
 		Description: "Ping Pong Request Handler",
 	},
+	u.Action{
+		URL:         "/link/short",
+		Method:      "POST",
+		Handler:     getShortURL,
+		Description: "URL Shortner ",
+	},
 }
